@@ -16,6 +16,7 @@ Then, run "./sender keyfile.txt" in the other tab
 
 recvfile will be created with the text from keyfile.txt
 
+---
 
 Members:
 Daniel Rangel - drangel3@csu.fullerton.edu
