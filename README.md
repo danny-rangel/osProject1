@@ -4,7 +4,7 @@ Language Used: C++
 
 OS: Linux
 
-#Instructions on program execution:
+# Instructions on program execution:
 
 Run make in project directory using the terminal
 
