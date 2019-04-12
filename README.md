@@ -2,16 +2,18 @@ SECTION: 13643
 
 Language Used: C++
 
-How To Execute Program:
-
 OS: Linux
 
-Instructions:
+#Instructions on program execution:
 
 Run make in project directory using the terminal
+
 Open up two tabs in your terminal
+
 First, run "./recv" in one tab
+
 Then, run "./sender keyfile.txt" in the other tab
+
 recvfile will be created with the text from keyfile.txt
 
 
