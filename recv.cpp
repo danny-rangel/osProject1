@@ -38,16 +38,36 @@ void init(int& shmid, int& msqid, void*& sharedMemPtr)
 		    is unique system-wide among all System V objects. Two objects, on the other hand,
 		    may have the same key.
 	 */
-	key_t key = ftok("keyfile.txt", 'a');
+	key_t key;
+	if ((key = ftok("keyfile.txt", 'a')) == -1)
+	{
+		perror("Error: ftok");
+		exit(-1);
+	}
 
 	/* TODO: Allocate a piece of shared memory. The size of the segment must be SHARED_MEMORY_CHUNK_SIZE. */
 	/* TODO: Attach to the shared memory */
 	/* TODO: Create a message queue */
 	/* Store the IDs and the pointer to the shared memory region in the corresponding parameters */
 
-	shmid = shmget(key, SHARED_MEMORY_CHUNK_SIZE, IPC_CREAT | 0666);
-	msqid = msgget(key, IPC_CREAT | 0666);
+	if ((shmid = shmget(key, SHARED_MEMORY_CHUNK_SIZE, IPC_CREAT | 0666)) == -1)
+	{
+		perror("Error: shmget");
+		exit(-1);
+	}
+
+	if ((msqid = msgget(key, IPC_CREAT | 0666)) == -1)
+	{
+		perror("Error: msgget");
+		exit(-1);
+	}
+
 	sharedMemPtr = shmat(shmid, NULL, 0);
+	if (sharedMemPtr == (char *)(-1))
+	{
+		perror("Error: shmat");
+		exit(-1);
+	}
 
 }
 
@@ -83,7 +103,11 @@ void mainLoop()
 
 	message newMessage;
 
-	msgrcv(msqid, &newMessage, sizeof(struct message), SENDER_DATA_TYPE, 0);
+	if (msgrcv(msqid, &newMessage, sizeof(struct message), SENDER_DATA_TYPE, 0) == -1)
+	{
+		perror("Error: msgrcv");
+		exit(-1);
+	}
 
 	msgSize = newMessage.size;
 
@@ -109,9 +133,17 @@ void mainLoop()
 
 			 newMessage.mtype = RECV_DONE_TYPE;
 
-			 msgsnd(msqid, &newMessage, 0, 0);
+			 if (msgsnd(msqid, &newMessage, 0, 0) == -1)
+			 {
+				 perror("Error: msgsnd");
+				 exit(-1);
+			 }
 
-			 msgrcv(msqid, &newMessage, sizeof(struct message), SENDER_DATA_TYPE, 0);
+			 if (msgrcv(msqid, &newMessage, sizeof(struct message), SENDER_DATA_TYPE, 0) == -1)
+			 {
+				 perror("Error: msgrcv");
+				 exit(-1);
+			 }
 
 			 msgSize = newMessage.size;
 		}
@@ -138,10 +170,24 @@ void cleanUp(const int& shmid, const int& msqid, void* sharedMemPtr)
 	/* TODO: Detach from shared memory */
 	/* TODO: Deallocate the shared memory chunk */
 	/* TODO: Deallocate the message queue */
+	if (shmdt(sharedMemPtr) == -1)
+	{
+		perror("Error: shmdt");
+		exit(-1);
+	}
 
-	msgctl(msqid, IPC_RMID, NULL);
-	shmctl(shmid, IPC_RMID, NULL);
-	shmdt(sharedMemPtr);
+	if (shmctl(shmid, IPC_RMID, NULL) == -1)
+	{
+		perror("Error: shmctl");
+		exit(-1);
+	}
+
+	if (msgctl(msqid, IPC_RMID, NULL) == -1)
+	{
+		perror("Error: msgctl");
+		exit(-1);
+	}
+
 }
 
 /**
