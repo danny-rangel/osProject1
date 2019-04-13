@@ -36,6 +36,7 @@ After running the makefile
 
 
 After running sender with keyfile.txt
+recvfile is now created with the text from keyfile.txt
 ![](https://i.imgur.com/xoyHdrH.png)
 
 
