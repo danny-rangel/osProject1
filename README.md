@@ -31,5 +31,12 @@ Worked on: Created the design diagrams
 We all collaborated on pseudocode for the program so that we could each
 implement our separate tasks without issues.
 
+After running the makefile
+[Running Make](https://i.imgur.com/RzEppW3.png)
+
+
+After running sender with keyfile.txt
+[After Running Sender](https://i.imgur.com/xoyHdrH.png)
+
 
 No extra credit
