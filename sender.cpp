@@ -36,7 +36,7 @@ void init(int& shmid, int& msqid, void*& sharedMemPtr)
 		    may have the same key.
 	 */
 	key_t key;
-	if ((key = ftok("keyfile.txt", 'a') == -1)
+	if ((key = ftok("keyfile.txt", 'a')) == -1)
 	{
 		perror("Error: ftok");
 		exit(-1);
@@ -88,7 +88,7 @@ void cleanUp(const int& shmid, const int& msqid, void* sharedMemPtr)
 
 	if (shmctl(shmid, IPC_RMID, NULL) == -1)
 	{
-		perror("Error: shmctl");
+		perror("Error");
 		exit(-1);
 	}
 

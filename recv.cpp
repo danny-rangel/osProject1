@@ -178,7 +178,7 @@ void cleanUp(const int& shmid, const int& msqid, void* sharedMemPtr)
 
 	if (shmctl(shmid, IPC_RMID, NULL) == -1)
 	{
-		perror("Error: shmctl");
+		perror("Error");
 		exit(-1);
 	}
 
