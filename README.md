@@ -32,11 +32,11 @@ We all collaborated on pseudocode for the program so that we could each
 implement our separate tasks without issues.
 
 After running the makefile
-(https://i.imgur.com/RzEppW3.png)
+![](https://i.imgur.com/RzEppW3.png)
 
 
 After running sender with keyfile.txt
-(https://i.imgur.com/xoyHdrH.png)
+![](https://i.imgur.com/xoyHdrH.png)
 
 
 No extra credit
